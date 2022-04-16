@@ -1,0 +1,843 @@
+{
+    "metadata": {
+        "kernelspec": {
+            "name": "python3",
+            "display_name": "Python 3 (ipykernel)",
+            "language": "python"
+        }
+    },
+    "nbformat": 4,
+    "nbformat_minor": 2,
+    "cells": [
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Manipulating and Exploring the Data Set**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 36,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "import pandas as pd\n",
+                "import numpy as np \n",
+                "import plotly\n",
+                "import plotly.express as px\n",
+                "import plotly.io as pio"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 37,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003ecustomer\u003c/th\u003e\n      \u003cth\u003eage\u003c/th\u003e\n      \u003cth\u003egender\u003c/th\u003e\n      \u003cth\u003ezipcodeOri\u003c/th\u003e\n      \u003cth\u003emerchant\u003c/th\u003e\n      \u003cth\u003ezipMerchant\u003c/th\u003e\n      \u003cth\u003ecategory\u003c/th\u003e\n      \u003cth\u003eamount\u003c/th\u003e\n      \u003cth\u003efraud\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003eC583110837'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e44.26\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003eC1332295774'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e324.50\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003eC1160421902'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM857378720'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_hotelservices'\u003c/td\u003e\n      \u003ctd\u003e176.32\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003eC966214713'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM857378720'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_hotelservices'\u003c/td\u003e\n      \u003ctd\u003e337.41\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003eC1450140987'\u003c/td\u003e\n      \u003ctd\u003e4'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM1198415165'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_wellnessandbeauty'\u003c/td\u003e\n      \u003ctd\u003e220.11\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e",
+                        "text/plain": "       customer age gender zipcodeOri      merchant zipMerchant  \\\n0   C583110837'  3'     M'     28007'   M480139044'      28007'   \n1  C1332295774'  3'     M'     28007'   M480139044'      28007'   \n2  C1160421902'  3'     M'     28007'   M857378720'      28007'   \n3   C966214713'  3'     M'     28007'   M857378720'      28007'   \n4  C1450140987'  4'     F'     28007'  M1198415165'      28007'   \n\n                category  amount  fraud  \n0             es_health'   44.26      1  \n1             es_health'  324.50      1  \n2      es_hotelservices'  176.32      1  \n3      es_hotelservices'  337.41      1  \n4  es_wellnessandbeauty'  220.11      1  "
+                    },
+                    "execution_count": 37,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "#import the cvs file\n",
+                "df = pd.read_csv('cardfraud.csv',engine='python')\n",
+                "df.head()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Display Data info**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 38,
+            "metadata": {},
+            "outputs": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "There are 144636 rows and 9 columns in this dataset. \n\nThe datatypes of each column are:\ncustomer        object\nage             object\ngender          object\nzipcodeOri      object\nmerchant        object\nzipMerchant     object\ncategory        object\namount         float64\nfraud            int64\ndtype: object \n\nAll types listed as objects are strings\n"
+                }
+            ],
+            "source": [
+                "rowct = df.shape[0]\n",
+                "colct = df.shape[1]\n",
+                "\n",
+                "print(\"There are {} rows and {} columns in this dataset. \\n\".format(rowct,colct))\n",
+                "\n",
+                "print(\"The datatypes of each column are:\")\n",
+                "\n",
+                "print(df.dtypes, \"\\n\")\n",
+                "\n",
+                "print(\"All types listed as objects are strings\")"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Describing the data**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 39,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003eamount\u003c/th\u003e\n      \u003cth\u003efraud\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003ecount\u003c/th\u003e\n      \u003ctd\u003e144636.000000\u003c/td\u003e\n      \u003ctd\u003e144636.000000\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003emean\u003c/th\u003e\n      \u003ctd\u003e56.746424\u003c/td\u003e\n      \u003ctd\u003e0.049780\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003estd\u003c/th\u003e\n      \u003ctd\u003e218.119863\u003c/td\u003e\n      \u003ctd\u003e0.217491\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003emin\u003c/th\u003e\n      \u003ctd\u003e0.000000\u003c/td\u003e\n      \u003ctd\u003e0.000000\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e25%\u003c/th\u003e\n      \u003ctd\u003e14.210000\u003c/td\u003e\n      \u003ctd\u003e0.000000\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e50%\u003c/th\u003e\n      \u003ctd\u003e27.870000\u003c/td\u003e\n      \u003ctd\u003e0.000000\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e75%\u003c/th\u003e\n      \u003ctd\u003e44.910000\u003c/td\u003e\n      \u003ctd\u003e0.000000\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003emax\u003c/th\u003e\n      \u003ctd\u003e8329.960000\u003c/td\u003e\n      \u003ctd\u003e1.000000\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e",
+                        "text/plain": "              amount          fraud\ncount  144636.000000  144636.000000\nmean       56.746424       0.049780\nstd       218.119863       0.217491\nmin         0.000000       0.000000\n25%        14.210000       0.000000\n50%        27.870000       0.000000\n75%        44.910000       0.000000\nmax      8329.960000       1.000000"
+                    },
+                    "execution_count": 39,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.describe()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Sorting**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 40,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003ecustomer\u003c/th\u003e\n      \u003cth\u003eage\u003c/th\u003e\n      \u003cth\u003egender\u003c/th\u003e\n      \u003cth\u003ezipcodeOri\u003c/th\u003e\n      \u003cth\u003emerchant\u003c/th\u003e\n      \u003cth\u003ezipMerchant\u003c/th\u003e\n      \u003cth\u003ecategory\u003c/th\u003e\n      \u003cth\u003eamount\u003c/th\u003e\n      \u003cth\u003efraud\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e72317\u003c/th\u003e\n      \u003ctd\u003eC660690290'\u003c/td\u003e\n      \u003ctd\u003e5'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM85975013'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_food'\u003c/td\u003e\n      \u003ctd\u003e7.79\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e96433\u003c/th\u003e\n      \u003ctd\u003eC1524407626'\u003c/td\u003e\n      \u003ctd\u003e1'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM348934600'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e22.71\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e96432\u003c/th\u003e\n      \u003ctd\u003eC374053775'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM348934600'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e1.31\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e96431\u003c/th\u003e\n      \u003ctd\u003eC1475317372'\u003c/td\u003e\n      \u003ctd\u003e1'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM1823072687'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e55.55\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e96430\u003c/th\u003e\n      \u003ctd\u003eC1761432742'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM348934600'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e5.77\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e...\u003c/th\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4805\u003c/th\u003e\n      \u003ctd\u003eC1510535804'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM17379832'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_sportsandtoys'\u003c/td\u003e\n      \u003ctd\u003e550.66\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4806\u003c/th\u003e\n      \u003ctd\u003eC1051985937'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e631.65\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4807\u003c/th\u003e\n      \u003ctd\u003eC2005070127'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e787.14\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4837\u003c/th\u003e\n      \u003ctd\u003eC1849046345'\u003c/td\u003e\n      \u003ctd\u003e4'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM732195782'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_travel'\u003c/td\u003e\n      \u003ctd\u003e1673.54\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003eC583110837'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e44.26\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003cp\u003e144636 rows × 9 columns\u003c/p\u003e\n\u003c/div\u003e",
+                        "text/plain": "           customer age gender zipcodeOri      merchant zipMerchant  \\\n72317   C660690290'  5'     F'     28007'    M85975013'      28007'   \n96433  C1524407626'  1'     M'     28007'   M348934600'      28007'   \n96432   C374053775'  3'     M'     28007'   M348934600'      28007'   \n96431  C1475317372'  1'     F'     28007'  M1823072687'      28007'   \n96430  C1761432742'  2'     F'     28007'   M348934600'      28007'   \n...             ...  ..    ...        ...           ...         ...   \n4805   C1510535804'  3'     F'     28007'    M17379832'      28007'   \n4806   C1051985937'  2'     F'     28007'   M480139044'      28007'   \n4807   C2005070127'  2'     F'     28007'   M480139044'      28007'   \n4837   C1849046345'  4'     F'     28007'   M732195782'      28007'   \n0       C583110837'  3'     M'     28007'   M480139044'      28007'   \n\n                 category   amount  fraud  \n72317            es_food'     7.79      0  \n96433  es_transportation'    22.71      0  \n96432  es_transportation'     1.31      0  \n96431  es_transportation'    55.55      0  \n96430  es_transportation'     5.77      0  \n...                   ...      ...    ...  \n4805    es_sportsandtoys'   550.66      1  \n4806           es_health'   631.65      1  \n4807           es_health'   787.14      1  \n4837           es_travel'  1673.54      1  \n0              es_health'    44.26      1  \n\n[144636 rows x 9 columns]"
+                    },
+                    "execution_count": 40,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.sort_values(by = 'fraud')"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 41,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003ecustomer\u003c/th\u003e\n      \u003cth\u003eage\u003c/th\u003e\n      \u003cth\u003egender\u003c/th\u003e\n      \u003cth\u003ezipcodeOri\u003c/th\u003e\n      \u003cth\u003emerchant\u003c/th\u003e\n      \u003cth\u003ezipMerchant\u003c/th\u003e\n      \u003cth\u003ecategory\u003c/th\u003e\n      \u003cth\u003eamount\u003c/th\u003e\n      \u003cth\u003efraud\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003eC583110837'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e44.26\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4838\u003c/th\u003e\n      \u003ctd\u003eC5191822'\u003c/td\u003e\n      \u003ctd\u003e1'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM1888755466'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_otherservices'\u003c/td\u003e\n      \u003ctd\u003e700.41\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4808\u003c/th\u003e\n      \u003ctd\u003eC2138532527'\u003c/td\u003e\n      \u003ctd\u003e5'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM50039827'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e695.27\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4807\u003c/th\u003e\n      \u003ctd\u003eC2005070127'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e787.14\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4806\u003c/th\u003e\n      \u003ctd\u003eC1051985937'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e631.65\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e...\u003c/th\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e53005\u003c/th\u003e\n      \u003ctd\u003eC357634845'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM1823072687'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e3.32\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e53004\u003c/th\u003e\n      \u003ctd\u003eC302774270'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM209847108'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_wellnessandbeauty'\u003c/td\u003e\n      \u003ctd\u003e111.89\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e53003\u003c/th\u003e\n      \u003ctd\u003eC868061193'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM1600850729'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_fashion'\u003c/td\u003e\n      \u003ctd\u003e18.81\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e53002\u003c/th\u003e\n      \u003ctd\u003eC2005671734'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM85975013'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_food'\u003c/td\u003e\n      \u003ctd\u003e24.23\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144635\u003c/th\u003e\n      \u003ctd\u003eC326815335'\u003c/td\u003e\n      \u003ctd\u003e1'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM348934600'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e26.05\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003cp\u003e144636 rows × 9 columns\u003c/p\u003e\n\u003c/div\u003e",
+                        "text/plain": "            customer age gender zipcodeOri      merchant zipMerchant  \\\n0        C583110837'  3'     M'     28007'   M480139044'      28007'   \n4838       C5191822'  1'     F'     28007'  M1888755466'      28007'   \n4808    C2138532527'  5'     M'     28007'    M50039827'      28007'   \n4807    C2005070127'  2'     F'     28007'   M480139044'      28007'   \n4806    C1051985937'  2'     F'     28007'   M480139044'      28007'   \n...              ...  ..    ...        ...           ...         ...   \n53005    C357634845'  3'     M'     28007'  M1823072687'      28007'   \n53004    C302774270'  2'     F'     28007'   M209847108'      28007'   \n53003    C868061193'  3'     F'     28007'  M1600850729'      28007'   \n53002   C2005671734'  2'     F'     28007'    M85975013'      28007'   \n144635   C326815335'  1'     F'     28007'   M348934600'      28007'   \n\n                     category  amount  fraud  \n0                  es_health'   44.26      1  \n4838        es_otherservices'  700.41      1  \n4808               es_health'  695.27      1  \n4807               es_health'  787.14      1  \n4806               es_health'  631.65      1  \n...                       ...     ...    ...  \n53005      es_transportation'    3.32      0  \n53004   es_wellnessandbeauty'  111.89      0  \n53003             es_fashion'   18.81      0  \n53002                es_food'   24.23      0  \n144635     es_transportation'   26.05      0  \n\n[144636 rows x 9 columns]"
+                    },
+                    "execution_count": 41,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.sort_values(by = 'fraud', ascending = False)"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **View single or more a few columns**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 42,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003egender\u003c/th\u003e\n      \u003cth\u003efraud\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e...\u003c/th\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144631\u003c/th\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144632\u003c/th\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144633\u003c/th\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144634\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144635\u003c/th\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003cp\u003e144636 rows × 2 columns\u003c/p\u003e\n\u003c/div\u003e",
+                        "text/plain": "       gender  fraud\n0          M'      1\n1          M'      1\n2          M'      1\n3          M'      1\n4          F'      1\n...       ...    ...\n144631     F'      0\n144632     F'      0\n144633     F'      0\n144634     M'      0\n144635     F'      0\n\n[144636 rows x 2 columns]"
+                    },
+                    "execution_count": 42,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df[['gender', 'fraud']]"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Grouping**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 43,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "amount\n0.00       12\n0.01       20\n0.02       19\n0.03       34\n0.04       23\n           ..\n7403.44     1\n7432.48     1\n7635.41     1\n7665.56     1\n8329.96     1\nName: customer, Length: 17716, dtype: int64"
+                    },
+                    "execution_count": 43,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.groupby('amount')['customer'].count()"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 44,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "category\nes_barsandrestaurants'      2499\nes_contents'                 189\nes_fashion'                 1653\nes_food'                    3917\nes_health'                  4397\nes_home'                     758\nes_hotelservices'            872\nes_hyper'                   2411\nes_leisure'                  485\nes_otherservices'            569\nes_sportsandtoys'           2735\nes_tech'                     684\nes_transportation'        118418\nes_travel'                   636\nes_wellnessandbeauty'       4413\nName: customer, dtype: int64"
+                    },
+                    "execution_count": 44,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.groupby('category')['customer'].count()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Data visualization**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 45,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "# Import the libraries we'll use to create graphs\n",
+                "from matplotlib import pyplot as plt\n",
+                "import numpy as np\n",
+                "\n",
+                "# Makes sure the graphs show in this window, not a new one\n",
+                "%matplotlib inline "
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 46,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "(array([137436.,   7200.]),\n array([0. , 0.5, 1. ]),\n \u003cBarContainer object of 2 artists\u003e)"
+                    },
+                    "execution_count": 46,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                },
+                {
+                    "data": {
+                        "image/png": "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\n",
+                        "text/plain": "\u003cFigure size 432x288 with 1 Axes\u003e"
+                    },
+                    "metadata": {
+                        "needs_background": "light"
+                    },
+                    "output_type": "display_data"
+                }
+            ],
+            "source": [
+                "plt.hist(df.fraud, bins = 2)\n",
+                ""
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 47,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "(-10.0, 800.0)"
+                    },
+                    "execution_count": 47,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                },
+                {
+                    "data": {
+                        "image/png": "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\n",
+                        "text/plain": "\u003cFigure size 432x288 with 1 Axes\u003e"
+                    },
+                    "metadata": {
+                        "needs_background": "light"
+                    },
+                    "output_type": "display_data"
+                }
+            ],
+            "source": [
+                "plt.hist(df.amount, bins = 1000, ec = \"black\", align = 'mid')\n",
+                "plt.xlim(-10 , 800)"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Manipulating Data**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 48,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003eamount\u003c/th\u003e\n      \u003cth\u003ePrice Ranges\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003e44.26\u003c/td\u003e\n      \u003ctd\u003enormal\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003e324.50\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003e176.32\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003e337.41\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003e220.11\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e",
+                        "text/plain": "   amount Price Ranges\n0   44.26       normal\n1  324.50    expensive\n2  176.32    expensive\n3  337.41    expensive\n4  220.11    expensive"
+                    },
+                    "execution_count": 48,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "def pricey(row):\n",
+                "    if row['amount'] \u003c= 50:\n",
+                "        return 'normal'\n",
+                "    elif row['amount'] \u003e 50 and row['amount'] \u003c= 100:\n",
+                "        return 'mid'\n",
+                "    else:\n",
+                "        return 'expensive'\n",
+                "\n",
+                "df[\"Price Ranges\"] = df.apply(pricey, axis = 1)\n",
+                "\n",
+                "df[['amount', 'Price Ranges']].head()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Groupby**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 49,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "amount   gender\n0.00     F'         7\n         M'         5\n0.01     F'         7\n         M'        13\n0.02     F'         7\n                   ..\n7403.44  M'         1\n7432.48  F'         1\n7635.41  F'         1\n7665.56  F'         1\n8329.96  M'         1\nName: customer, Length: 26123, dtype: int64"
+                    },
+                    "execution_count": 49,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.groupby(['amount', 'gender'])['customer'].count()"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 50,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "zipcodeOri\n28007'    144636\nName: customer, dtype: int64"
+                    },
+                    "execution_count": 50,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.groupby(['zipcodeOri'])['customer'].count()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **checking for Missing data**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 51,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "Series([], dtype: bool)"
+                    },
+                    "execution_count": 51,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.isna().any()[lambda x: x]"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                " there is only one zipcode so it is not needed for train test\n",
+                "  \n",
+                " - compare all categories to fraud with pie chart.\n",
+                "\n",
+                "validate data incase of overfitting\n",
+                ""
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Convert Gender to Number**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 52,
+            "metadata": {},
+            "outputs": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "New Gender Labeling E = 1, F = 2, M = 3, U = 4\n"
+                },
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003egender\u003c/th\u003e\n      \u003cth\u003eGender by Number\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e",
+                        "text/plain": "  gender  Gender by Number\n0     M'                 3\n1     M'                 3\n2     M'                 3\n3     M'                 3\n4     F'                 2"
+                    },
+                    "execution_count": 52,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "def genders(row):\n",
+                "    if row['gender'] == \"E'\":\n",
+                "        return 1\n",
+                "    elif row['gender'] == \"F'\":\n",
+                "        return 2\n",
+                "    elif row['gender'] == \"M'\":\n",
+                "        return 3\n",
+                "    else:\n",
+                "        return 4\n",
+                "\n",
+                "df[\"Gender by Number\"] = df.apply(genders, axis = 1)\n",
+                "\n",
+                "print(\"New Gender Labeling E = 1, F = 2, M = 3, U = 4\")\n",
+                "\n",
+                "df[['gender', 'Gender by Number']].head()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Convert Price Ranges to numbers**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 53,
+            "metadata": {},
+            "outputs": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "New Price Ranges Labeling normal = 1, mid = 2, expensive = 3, U = 4\n"
+                },
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003ePrice Ranges\u003c/th\u003e\n      \u003cth\u003ePrice Ranges by Number\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003enormal\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e",
+                        "text/plain": "  Price Ranges  Price Ranges by Number\n0       normal                       1\n1    expensive                       3\n2    expensive                       3\n3    expensive                       3\n4    expensive                       3"
+                    },
+                    "execution_count": 53,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "def priceRan(row):\n",
+                "    if row['Price Ranges'] == \"normal\":\n",
+                "        return 1\n",
+                "    elif row['Price Ranges'] == \"mid\":\n",
+                "        return 2\n",
+                "    elif row['Price Ranges'] == \"expensive\":\n",
+                "        return 3\n",
+                "\n",
+                "df[\"Price Ranges by Number\"] = df.apply(priceRan, axis = 1)\n",
+                "\n",
+                "print(\"New Price Ranges Labeling normal = 1, mid = 2, expensive = 3, U = 4\")\n",
+                "\n",
+                "df[['Price Ranges', 'Price Ranges by Number']].head()"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 54,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/plain": "category\nes_barsandrestaurants'      2499\nes_contents'                 189\nes_fashion'                 1653\nes_food'                    3917\nes_health'                  4397\nes_home'                     758\nes_hotelservices'            872\nes_hyper'                   2411\nes_leisure'                  485\nes_otherservices'            569\nes_sportsandtoys'           2735\nes_tech'                     684\nes_transportation'        118418\nes_travel'                   636\nes_wellnessandbeauty'       4413\nName: customer, dtype: int64"
+                    },
+                    "execution_count": 54,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df.groupby('category')['customer'].count()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Convert Category to numbers**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 55,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003ecategory\u003c/th\u003e\n      \u003cth\u003eCategory by Number\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e6.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e6.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003ees_hotelservices'\u003c/td\u003e\n      \u003ctd\u003e8.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003ees_hotelservices'\u003c/td\u003e\n      \u003ctd\u003e8.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003ees_wellnessandbeauty'\u003c/td\u003e\n      \u003ctd\u003e16.0\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e",
+                        "text/plain": "                category  Category by Number\n0             es_health'                 6.0\n1             es_health'                 6.0\n2      es_hotelservices'                 8.0\n3      es_hotelservices'                 8.0\n4  es_wellnessandbeauty'                16.0"
+                    },
+                    "execution_count": 55,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "def categors(row):\n",
+                "    if row['category'] == \"es_auto'\":\n",
+                "        return 1\n",
+                "    elif row['category'] == \"es_barsandrestaurants'\":\n",
+                "        return 2\n",
+                "    elif row['category'] == \"es_contents'\":\n",
+                "        return 3\n",
+                "    elif row['category'] == \"es_fashion'\":\n",
+                "        return 4\n",
+                "    elif row['category'] == \"es_food'\":\n",
+                "        return 5\n",
+                "    elif row['category'] == \"es_health'\":\n",
+                "        return 6\n",
+                "    elif row['category'] == \"es_home'\":\n",
+                "        return 7\n",
+                "    elif row['category'] == \"es_hotelservices'\":\n",
+                "        return 8\n",
+                "    elif row['category'] == \"es_hyper'\":\n",
+                "        return 9\n",
+                "    elif row['category'] == \"es_leisure'\":\n",
+                "        return 10\n",
+                "    elif row['category'] == \"es_otherservices'\":\n",
+                "        return 11\n",
+                "    elif row['category'] == \"es_sportsandtoys'\":\n",
+                "        return 12\n",
+                "    elif row['category'] == \"es_tech'\":\n",
+                "        return 13\n",
+                "    elif row['category'] == \"es_transportation'\":\n",
+                "        return 14\n",
+                "    elif row['category'] == \"es_travel\":\n",
+                "        return 15\n",
+                "    elif row['category'] == \"es_wellnessandbeauty'\":\n",
+                "        return 16\n",
+                "\n",
+                "df[\"Category by Number\"] = df.apply(categors, axis = 1)\n",
+                "\n",
+                "df[['category', 'Category by Number']].head()"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Show data again.**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 56,
+            "metadata": {},
+            "outputs": [
+                {
+                    "data": {
+                        "text/html": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border=\"1\" class=\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style=\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003ecustomer\u003c/th\u003e\n      \u003cth\u003eage\u003c/th\u003e\n      \u003cth\u003egender\u003c/th\u003e\n      \u003cth\u003ezipcodeOri\u003c/th\u003e\n      \u003cth\u003emerchant\u003c/th\u003e\n      \u003cth\u003ezipMerchant\u003c/th\u003e\n      \u003cth\u003ecategory\u003c/th\u003e\n      \u003cth\u003eamount\u003c/th\u003e\n      \u003cth\u003efraud\u003c/th\u003e\n      \u003cth\u003ePrice Ranges\u003c/th\u003e\n      \u003cth\u003eGender by Number\u003c/th\u003e\n      \u003cth\u003ePrice Ranges by Number\u003c/th\u003e\n      \u003cth\u003eCategory by Number\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003eC583110837'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e44.26\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003enormal\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003e6.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003eC1332295774'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM480139044'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_health'\u003c/td\u003e\n      \u003ctd\u003e324.50\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e6.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003eC1160421902'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM857378720'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_hotelservices'\u003c/td\u003e\n      \u003ctd\u003e176.32\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e8.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003eC966214713'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM857378720'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_hotelservices'\u003c/td\u003e\n      \u003ctd\u003e337.41\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e8.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003eC1450140987'\u003c/td\u003e\n      \u003ctd\u003e4'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM1198415165'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_wellnessandbeauty'\u003c/td\u003e\n      \u003ctd\u003e220.11\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003eexpensive\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e16.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e...\u003c/th\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n      \u003ctd\u003e...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144631\u003c/th\u003e\n      \u003ctd\u003eC1375103798'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM348934600'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e56.93\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n      \u003ctd\u003emid\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e14.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144632\u003c/th\u003e\n      \u003ctd\u003eC1557540123'\u003c/td\u003e\n      \u003ctd\u003e4'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM855959430'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_hyper'\u003c/td\u003e\n      \u003ctd\u003e72.14\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n      \u003ctd\u003emid\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e9.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144633\u003c/th\u003e\n      \u003ctd\u003eC1201848792'\u003c/td\u003e\n      \u003ctd\u003e2'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM855959430'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_hyper'\u003c/td\u003e\n      \u003ctd\u003e40.12\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n      \u003ctd\u003enormal\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003e9.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144634\u003c/th\u003e\n      \u003ctd\u003eC1089903335'\u003c/td\u003e\n      \u003ctd\u003e3'\u003c/td\u003e\n      \u003ctd\u003eM'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM1823072687'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e10.90\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n      \u003ctd\u003enormal\u003c/td\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003e14.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e144635\u003c/th\u003e\n      \u003ctd\u003eC326815335'\u003c/td\u003e\n      \u003ctd\u003e1'\u003c/td\u003e\n      \u003ctd\u003eF'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003eM348934600'\u003c/td\u003e\n      \u003ctd\u003e28007'\u003c/td\u003e\n      \u003ctd\u003ees_transportation'\u003c/td\u003e\n      \u003ctd\u003e26.05\u003c/td\u003e\n      \u003ctd\u003e0\u003c/td\u003e\n      \u003ctd\u003enormal\u003c/td\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003e14.0\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003cp\u003e144636 rows × 13 columns\u003c/p\u003e\n\u003c/div\u003e",
+                        "text/plain": "            customer age gender zipcodeOri      merchant zipMerchant  \\\n0        C583110837'  3'     M'     28007'   M480139044'      28007'   \n1       C1332295774'  3'     M'     28007'   M480139044'      28007'   \n2       C1160421902'  3'     M'     28007'   M857378720'      28007'   \n3        C966214713'  3'     M'     28007'   M857378720'      28007'   \n4       C1450140987'  4'     F'     28007'  M1198415165'      28007'   \n...              ...  ..    ...        ...           ...         ...   \n144631  C1375103798'  3'     F'     28007'   M348934600'      28007'   \n144632  C1557540123'  4'     F'     28007'   M855959430'      28007'   \n144633  C1201848792'  2'     F'     28007'   M855959430'      28007'   \n144634  C1089903335'  3'     M'     28007'  M1823072687'      28007'   \n144635   C326815335'  1'     F'     28007'   M348934600'      28007'   \n\n                     category  amount  fraud Price Ranges  Gender by Number  \\\n0                  es_health'   44.26      1       normal                 3   \n1                  es_health'  324.50      1    expensive                 3   \n2           es_hotelservices'  176.32      1    expensive                 3   \n3           es_hotelservices'  337.41      1    expensive                 3   \n4       es_wellnessandbeauty'  220.11      1    expensive                 2   \n...                       ...     ...    ...          ...               ...   \n144631     es_transportation'   56.93      0          mid                 2   \n144632              es_hyper'   72.14      0          mid                 2   \n144633              es_hyper'   40.12      0       normal                 2   \n144634     es_transportation'   10.90      0       normal                 3   \n144635     es_transportation'   26.05      0       normal                 2   \n\n        Price Ranges by Number  Category by Number  \n0                            1                 6.0  \n1                            3                 6.0  \n2                            3                 8.0  \n3                            3                 8.0  \n4                            3                16.0  \n...                        ...                 ...  \n144631                       2                14.0  \n144632                       2                 9.0  \n144633                       1                 9.0  \n144634                       1                14.0  \n144635                       1                14.0  \n\n[144636 rows x 13 columns]"
+                    },
+                    "execution_count": 56,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ],
+            "source": [
+                "df"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **More Data Visualizations**\n",
+                "\n",
+                "- Pie Charts - "
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 57,
+            "metadata": {},
+            "outputs": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Gender composition of Fruad\nCategory composition of Fraud\nAge composition of Fraud\nPrice composition of pie chart\n"
+                }
+            ],
+            "source": [
+                "print(\"Gender composition of Fruad\")\n",
+                "print(\"Category composition of Fraud\")\n",
+                "print(\"Age composition of Fraud\")\n",
+                "print(\"Price composition of pie chart\")"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Split the dataset into training and testing**"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 58,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                ""
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Discussion Questions**"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Discussion in the your project notebook (add a text cell and answer the following questions):**"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Question**\n",
+                "\n",
+                "A. Describe your dataset.  \n",
+                "1. How many rows are there? \n",
+                "2. What are the names of some interesting columns?\n",
+                "3. Which data type are the columns?"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Answer**"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "1. 594645 rows\n",
+                "\n",
+                "2. The fraud column is interesting because the data is meant to help with fraud detection but it's probably about 1-5% of the data that's fraud.\n",
+                "\n",
+                "3. There are two data sets and combined there are 10 string columns, 3 Integer columns and 2 Decimal columns."
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Question**\n",
+                "\n",
+                "B. What are a few predictions you would like to investigate?"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Answer**"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "Some predictions I would like to investigate are \n",
+                "\n",
+                "a. If certain age or gender demographics buying products can be good indicators for fraud\n",
+                "\n",
+                "b. If purchases that are too far from each other in a short amount of time can indicate fruad."
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Question**\n",
+                "\n",
+                "C. What do your initial data visualizations tell you about your data?"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Answer**"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "A lot of the purchases are within 0 - 100 euros"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Question**\n",
+                "\n",
+                "D. What inconsistencies do you notice in your data? "
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Answer**"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "None were noticed"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Question**\n",
+                "\n",
+                "E. What are other columns (“features”) you would like to add to your data?"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "**Answer**\n",
+                "\n",
+                "average amount of money spent in the 16 goods categories\n",
+                "\n",
+                "average amount of money spent in a zipcode"
+            ]
+        },
+        {
+            "attachments": {},
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "# **Phase 2 Discussion Questions**\n",
+                "\n",
+                "Summarize the data preparation techniques and steps your team applied to your data\n",
+                "\n",
+                "    We removed the extra data we didin't need. \n",
+                "\n",
+                "What additional work does your team need to do in order to fully prepare your data?\n",
+                "\n",
+                "    none honestly."
+            ]
+        }
+    ]
+}
